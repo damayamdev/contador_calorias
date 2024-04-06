@@ -1,33 +1,33 @@
 import { useMemo } from "react";
-import { FormTypes } from "../types";
 import { CalorieDisplay } from "./CalorieDisplay";
+import { useCalorie } from "../hooks/useCalorie";
 
-type CalorieTrackerProps = {
-  forms: FormTypes[];
-};
 
-export const CalorieTracker = ({ forms }: CalorieTrackerProps) => {
+export const CalorieTracker = () => {
+
+  const {state} = useCalorie()
+
   const caloriesConsumed = useMemo(
     () =>
-      forms.reduce(
+      state.forms.reduce(
         (total, calorie) =>
           calorie.category === 1 ? total + calorie.calories : total,
         0
       ),
-    [forms]
+    [state.forms]
   );
 
   const CaloriesBurned = useMemo(
     () =>
-      forms.reduce(
+      state.forms.reduce(
         (total, calorie) =>
           calorie.category === 2 ? total + calorie.calories : total,
         0
       ),
-    [forms]
+    [state.forms]
   );
 
-  const netCalories = useMemo(() => caloriesConsumed - CaloriesBurned, [forms])
+  const netCalories = useMemo(() => caloriesConsumed - CaloriesBurned, [state.forms])
 
   return (
     <>

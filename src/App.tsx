@@ -1,11 +1,12 @@
 import { Form } from "./components/Form";
-import { useEffect, useMemo, useReducer } from "react";
-import { formReducer, initialState } from "./reducers/formReducer";
+import { useEffect, useMemo } from "react";
 import { FormList } from "./components/FormList";
 import { CalorieTracker } from "./components/CalorieTracker";
+import { useCalorie } from "./hooks/useCalorie";
 
 function App() {
-  const [state, dispatch] = useReducer(formReducer, initialState);
+ 
+  const {state, dispatch} = useCalorie()
 
   useEffect(() => {
     localStorage.setItem("calories", JSON.stringify(state.forms));
@@ -31,16 +32,16 @@ function App() {
       </header>
       <section className="bg-lime-500 py-20 px-5">
         <div className="max-w-4xl mx-auto">
-          <Form dispatch={dispatch} state={state} />
+          <Form/>
         </div>
       </section>
       <section className="bg-gray-800 py-10">
         <div className="max-w-4xl mx-auto">
-          <CalorieTracker forms={state.forms} />
+          <CalorieTracker />
         </div>
       </section>
       <section className="p-10 mx-auto max-w-4xl">
-        <FormList forms={state.forms} dispatch={dispatch} />
+        <FormList />
       </section>
     </>
   );

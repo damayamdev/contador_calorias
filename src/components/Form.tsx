@@ -1,21 +1,19 @@
-import { ChangeEvent, Dispatch, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import {v4 as uuidv4} from 'uuid'
 import { categories } from "../data/categories";
 import type { FormTypes } from "../types";
-import { FormActions, FormState } from '../reducers/formReducer';
+import { useCalorie } from "../hooks/useCalorie";
 
-type FormProps = {
-  dispatch: Dispatch<FormActions>;
-  state: FormState
-};
 
-export const Form = ({ dispatch, state }: FormProps) => {
+export const Form = () => {
   const initialState : FormTypes = {
     id: uuidv4(),
     category: 0,
     name: "",
     calories: 0,
   };
+
+  const {state, dispatch} = useCalorie()
 
   const [form, setForm] = useState<FormTypes>(initialState);
 

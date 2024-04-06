@@ -1,22 +1,21 @@
-import { Dispatch, useMemo } from "react";
+import { useMemo } from "react";
 import type { FormTypes } from "../types";
 import { categories } from "../data/categories";
 import {PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { FormActions} from "../reducers/formReducer";
+import { useCalorie } from "../hooks/useCalorie";
 
-type FormListProps = {
-  forms: FormTypes[];
-  dispatch: Dispatch<FormActions>
-};
 
-export const FormList = ({ forms, dispatch }: FormListProps) => {
+export const FormList = () => {
+
+  const {state, dispatch} = useCalorie()
+
   const categoryName = useMemo(
     () => (category: FormTypes["category"]) =>
       categories.map((cat) => (cat.id === category ? cat.name : "")),
-    [forms]
+    [state.forms]
   );
 
-  const isEmptyCalories = useMemo(() => forms.length === 0, [forms])
+  const isEmptyCalories = useMemo(() => state.forms.length === 0, [state.forms])
 
   return (
     <>
@@ -26,7 +25,7 @@ export const FormList = ({ forms, dispatch }: FormListProps) => {
       {
         isEmptyCalories ? <p className="text-center mt-5">No hay consumo aún....</p> :
       
-      forms.map((item) => (
+        state.forms.map((item) => (
         <div
           key={item.id}
           className="px-5 py-10 bg-white mt-5 flex justify-between shadow"
